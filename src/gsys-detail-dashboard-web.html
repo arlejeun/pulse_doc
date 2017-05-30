@@ -1,0 +1,405 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icons/communication-icons.html">
+<link rel="import" href="../bower_components/iron-icons/hardware-icons.html">
+<link rel="import" href="../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-divider/paper-divider.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/codelab-components/google-codelab.html">
+<link rel="import" href="../bower_components/codelab-components/google-codelab-step.html">
+<link rel="import" href="../bower_components/codelab-components/google-codelab-survey.html">
+
+<link rel="import" href="market-category-data.html">
+<link rel="import" href="shared-styles.html">
+<dom-module id="gsys-detail-dashboard">
+    <template>
+        <style>
+
+
+        h1 {
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 28px;
+            margin: 0;
+        }
+
+          paper-divider.divider-for-light-background {
+            --paper-divider-color: #1976d2;
+          }
+
+
+        </style>
+        <!--
+            app-route provides the name of the category and the item.
+        -->
+        <app-route route="[[route]]" pattern="/:dashboardId" data="{{routeData}}"></app-route>
+
+        <market-category-data id="categoryData"
+            category-name="pulse_dashboards"
+            item-name="{{_getDashboardName(routeData.dashboardId)}}"
+            item="{{item}}"
+            failure="{{failure}}">
+        </market-category-data>
+
+
+         <google-codelab id="codelab" title="Build Pulse Dashboards - {{item.title}} - No Code!" environment="web" last-updated="2016-07-18" noToolbar="true">
+
+            <google-codelab-step label="Overview" duration="2">
+
+                <h2>{{item.title}}</h2>
+
+                <p><img src="{{item.image_src}}" style="max-width: 624px"></p>
+                    <br> {{item.shortDesc}}
+                </p>
+
+                <h3 class="checklist">What you'll learn</h3>
+
+                <ul class="checklist">
+                    <li>Measure the volume and trend of your customer engagements with your organization today</li>
+                    <li>Measure the distribution of the predefined <a href="https://docs.genesys.com/Documentation/GWE/8.5.0/User/Category">web categories</a> and identify the most impactful ones for your organization</li>
+                    <li>Identify the most visited resources (domains, pages, categories, rules) before engaging with your organization</li>
+                </ul>
+                <h3>What you'll need</h3>
+                <p></p>
+                <ul>
+                    <li>Genesys CIM 8.1+</li>
+                    <li>Genesys Web Engagement 8.5+</li>
+                </ul>
+
+                <h3>Who developed this dashboard?</h3>
+                <p>This dashboard was built and is supported by the Genesys Web Engagement Team. <br> Additional information can be found in the technical documentation </p>
+                <ul>
+                    <li><a href="https://docs.genesys.com/Documentation/GWE/latest/Report/funneldash" target="_blank">Engagement Summary Today Extended View</a></li>
+
+                    <li><a href="https://docs.genesys.com/Documentation/GWE/latest/Report/Welcome" target="_blank">Genesys Web Engagement Reporting Guide</a></li>
+
+                </ul>
+            </google-codelab-step>
+
+
+            <google-codelab-step label="Features" duration="3">
+
+                <h2>[[item.title]]</h2>
+
+
+                <section id="scrollNav-2">
+                    <h2>Overview Timeline</h2>
+                    <p>The Overview Timeline uses a grouped bar chart to display historical engagement information, with each group calculated on an hourly basis.</p>
+                    <p>The information in this chart is derived from all events that have occurred within the time frame established by the
+                        <a target="_blank" href="https://docs.genesys.com/Documentation/GWE/8.5.0/Report/extendedview#timefilter">time filter</a>
+                    , which is set to <b>Today</b> by default. The metrics used in this chart are explained in the next section.
+                    </p>
+                    <p>
+                        <a href="/images/Engagement_Summary_Dashboard/01_GWE_Engagement_Timeline.png" target="_blank" title="The Engagement Summary Overview Timeline">
+                            <img alt="The Engagement Summary Overview Timeline" src="/images/Engagement_Summary_Dashboard/01_GWE_Engagement_Timeline.png" style="max-width: 624px">
+                        </a>
+                    <br><br>
+                    </p>
+                </section>
+
+                <paper-divider class="divider-for-light-background"></paper-divider>
+
+                <section id="scrollNav-3">
+                    <h2>Overview - KPI Widget Set</h2>
+                    <p>This set of KPI widgets shows a summary of important engagement statistics from within the time frame established by the <a target="_blank" href="https://docs.genesys.com/Documentation/GWE/8.5.0/Report/extendedview#timefilter">time filter</a>. These statistics are used in the Overview Timeline described in the previous section.</p>
+
+                    <aside class="warning">
+                    <p>
+                        <b>Note:</b> These statistics are different from the ones displayed in the <a target="_blank" href="https://docs.genesys.com/Documentation/GWE/8.5.0/Report/funnel">GWE - Engagement Summary Today</a> basic view.
+                    </p>
+                    </aside>
+                    <p>
+                        <a href="/images/Engagement_Summary_Dashboard/02_GWE_Kpi_Widgets.png" target="_blank" title="Overview Timeline KPI Widgets"><img alt="Overview Timeline KPI Widgets" src="/images/Engagement_Summary_Dashboard/02_GWE_Kpi_Widgets.png" style="max-width: 624px">
+                        </a>
+                        <br>
+                    </p>
+
+                    <div id="scrollNav-3-1">
+                        <h3><u>KPI Metrics</u></h3>
+                        <ul>
+                            <li>
+                                <b>Qualified For Engagement</b> - Total number of visits that have triggered a "HotleadIdentifiedActionableEvent" event from one of the rules set up for Web Engagement
+                            </li>
+                            <li><b>Attempted Engagements</b> - Total number of visits that have led to an engagement offer (<b>Disposition</b> event)</li>
+                            <li><b>Accepted Engagements</b> - Total number of visits for which an engagement offer was accepted</li>
+                            <li><b>Ignored Engagements</b> - Total number of visits for which an engagement offer was ignored</li>
+                            <li><b>Declined Engagements</b> - Total number of visits for which an engagement offer was declined</li>
+                        </ul>
+
+                        <aside class="special">
+                        <p><b>Note:</b> A single visit may include more than one engagement attempt. For example, a banner ad could be followed by an offer to chat.</p>
+                        </aside>
+                    </div>
+                </section>
+
+                <paper-divider class="divider-for-light-background"></paper-divider>
+
+
+                <section id="scrollNav-4">
+                    <h2>Category Distribution</h2>
+                    <p>The Engagement Summary Today extended view includes a widget that can be extremely useful when you need to understand how a <a target="_blank" href="https://docs.genesys.com/Documentation/GWE/8.5.0/User/Category">category</a> leads to a certain result. This widget displays a sunburst of distributed categories within three layers:</p>
+
+                    <ul>
+                        <li>Event Type (the <b>inner ring</b>)</li>
+                        <li>Category Name (the <b>center ring</b>)</li>
+                        <li>Result (the <b>outer ring</b>)</li>
+                    </ul>
+                    <p>These layers represent hierarchical data, starting from the innermost ring, and working outwards. As you work your way out, through the rings of the chart, the data that is adjacent to any given segment of an inner ring forms a subset of its data, as you can see if you take a close look at this example:<br><br>
+                    </p>
+                    <p>
+                        <a href="/images/Engagement_Summary_Dashboard/03_GWE_Category_Sunburst.png" class="image" title="Category Sunburst">
+                            <img alt="Category Sunburst" src="/images/Engagement_Summary_Dashboard/03_GWE_Category_Sunburst.png" style="max-width: 624px"></a>
+                            <br><br>
+                    </p>
+
+                    <aside class="special">
+                        <p>Although sunbursts aren't intuitive to everyone, this one might be the best way to present the information you need.</p>
+                    </aside>
+
+                </section>
+
+                <section id="scrollNav-5">
+                    <h2>Top 5 Widget Set</h2>
+                    <p>The widgets in this set show the number of hits for the Top 5:</p>
+                        <ul>
+                            <li><b>Domains</b> visited by customers during their journey</li>
+                            <li><b>Pages</b> they visited during their journey</li>
+                            <li><b>Categories</b> set up on the pages they visited</li>
+                            <li><b>Rules</b> they triggered</li>
+                        </ul>
+                    <p>These values are all based on the time frame established by the
+                        <a target="_blank" href="https://docs.genesys.com/Documentation/GWE/8.5.0/Report/extendedview#timefilter">time filter</a>.
+                    </p>
+                    <p>
+                        <a href="/images/Engagement_Summary_Dashboard/04_GWE_Summary_Top5.png" target="_blank" title="Overview Timeline KPI Widgets">
+                            <img alt="Overview Timeline KPI Widgets" src="/images/Engagement_Summary_Dashboard/04_GWE_Summary_Top5.png" style="max-width: 624px">
+                        </a>
+                        <br>
+                    </p>
+                </section>
+
+                <section id="scrollNav-6">
+                    <h2>Channels</h2>
+                    <p>This widget shows trend data for chat and web callback engagements accepted within the given <a target="_blank" href="https://docs.genesys.com/Documentation/GWE/8.5.0/Report/extendedview#timefilter">time frame</a>.
+                    </p>
+                    <p>
+                        <a href="/images/Engagement_Summary_Dashboard/05_GWE_Offered_Channel_Trends.png" target="_blank" title="Offered Channel Trendlines">
+                            <img alt="Offered Channel Trendlines" src="/images/Engagement_Summary_Dashboard/05_GWE_Offered_Channel_Trends.png"
+                            style="max-width: 624px"></a>
+                    </p>
+                </section>
+
+
+            </google-codelab-step>
+
+
+            <google-codelab-step label="Pre-requisites" duration="5">
+
+                <ul class="checklist">
+                <p>Genesys Pulse is offering 3 complementary approaches to monitor real-time needs and improve visibility of your customer engagements:</p>
+
+                <li>Dashboard with native widgets</li>
+                <li>Dashboard with hybrid widgets</li>
+                <li>Extended Pulse Visualization</li>
+
+            </ul>
+
+                <aside class="special">
+                    <p> <b>This dashboard is part of the
+                            <a href="https://docs.genesys.com/Documentation/GWE/latest/Report/extendedview">
+                                Extended Pulse Visualization
+                            </a>
+                        </b>
+                        <br>
+                    </p>
+                    <p>It offers additional discovery analysis based on more advanced visualization capabilities as well as additional KPIs from domains not visible to the Genesys Stat Server.<br>
+                    The visualization is not offering the same capabilities as the native Pulse widgets.<br>
+                    This mode is only available with the
+                    <a href="https://docs.genesys.com/Documentation/GWE/latest/Deployment/installgdps" target="_blank">
+                        Genesys Data Processing Server</a> and the <a href="https://docs.genesys.com/Documentation/GWE/latest/Deployment/installgdps" target="_blank">Reporting Dashboard Plug-in</a>.
+                    </p>
+
+                    <p>
+                        <paper-button raised class="colored">
+                            <iron-icon icon="file-download"></iron-icon>
+                            <a href="https://docs.genesys.com/Documentation/GWE/latest/Deployment/rptdashproxy">
+                                <b>Install Data Processing Server</b>
+                            </a>
+                        </paper-button>
+                    </p>
+                </aside>
+
+                <p>
+                    See below the list of the templates used by this dashboard with the link to additional information.
+                    <div class="card-actions justified">
+                        <template is="dom-repeat" items="[[item.templates]]">
+                                <paper-button>[[item.label]]</paper-button>
+                        </template>
+                    </div>
+                </p>
+
+            </google-codelab-step>
+
+             <google-codelab-step label="Feedback & Reviews" duration="2">
+
+                    <google-codelab-survey survey-id="test-survey-1">
+                        <h4>How would rate your experience with Pulse?</h4>
+                        <paper-radio-group>
+                            <paper-radio-button>Novice</paper-radio-button>
+                            <paper-radio-button>Intermediate</paper-radio-button>
+                            <paper-radio-button>Advanced</paper-radio-button>
+                        </paper-radio-group>
+                    </google-codelab-survey>
+
+                    <google-codelab-survey survey-id="test-survey-2">
+                        <h4>What is your role in your organization?</h4>
+                        <paper-radio-group>
+                            <paper-radio-button>Administrator</paper-radio-button>
+                            <paper-radio-button>Team Leader</paper-radio-button>
+                            <paper-radio-button>Supervisor</paper-radio-button>
+                            <paper-radio-button>Analyst</paper-radio-button>
+                            <paper-radio-button>Business Manager</paper-radio-button>
+                        </paper-radio-group>
+                    </google-codelab-survey>
+
+                    <google-codelab-survey survey-id="test-survey-3">
+                        <h4>Would you recommend this dashboard for your organization?</h4>
+                            <star-rating rate=[[item.rating]]>
+                                <!--<div votes>
+                                    &nbsp; (10)
+                                </div>-->
+                            </star-rating>
+                    </google-codelab-survey>
+
+
+            </google-codelab-step>
+
+
+        </google-codelab>
+
+
+    </template>
+    <script>
+    Polymer({
+
+        is: 'gsys-detail-dashboard',
+
+        properties: {
+            item: Object,
+            dashboardId: String,
+            route: Object,
+            routeData: Object,
+            visible: Boolean,
+            offline: {
+                type: Boolean,
+                observer: '_offlineChanged'
+            },
+            failure: Boolean
+        },
+
+        observers: [
+            //'_itemChanged(item, visible)',
+            '_itemChanged(item)',
+            '_routeChanged(route)',
+            '_viewChanged(routeData)'
+        ],
+
+
+        _itemChanged: function(item) {
+            this.debounce('item-change', function() {
+                // The item description contains escaped HTML (e.g. "&lt;br&gt;"), so we need to
+                // unescape it ("<br>") and set it as innerHTML.
+                var text = item ? item.shortDesc : '';
+                //this.$.desc.innerHTML = this._unescapeText(text);
+
+
+                /*this.fire('change-section', {
+                    category: item.category,
+                    title: item.title
+                });*/
+            });
+        },
+
+        _getDashboardName:function(dashboardId) {
+          console.log(dashboardId);
+          return dashboardId;
+        },
+
+
+        //Not called
+        _routeChanged: function(changeRecord) {
+            if (changeRecord) {
+                console.log('Detail - Path changed!' + changeRecord.path);
+            }
+
+        },
+
+        _viewChanged: function(view) {
+            console.log('Detail - View loaded!' + view);
+        },
+
+
+        _dashboardChanged: function() {
+            console.log(this.dashboard);
+        },
+
+        _computeCategoryName: function(route) {
+            let urlPath = route.prefix + route.path;
+            return urlPath.replace(/\//g, "_").slice(1) || 'pulse-templates';
+        },
+
+
+        _unescapeText: function(text) {
+            var elem = document.createElement('textarea');
+            elem.innerHTML = text;
+            return elem.textContent;
+        },
+
+        _formatPrice: function(price) {
+            return price ? '$' + price.toFixed(2) : '';
+        },
+
+        _addToCart: function() {
+            // This event will be handled by shop-app.
+            this.fire('add-cart-item', {
+                item: this.item,
+                quantity: parseInt(this.$.quantitySelect.value, 10),
+                size: this.$.sizeSelect.value
+            });
+        },
+
+        _isDefined: function(item) {
+            return item != null;
+        },
+
+        _tryReconnect: function() {
+            this.$.categoryData.refresh();
+        },
+
+        _offlineChanged: function(offline) {
+            if (!offline) {
+                this._tryReconnect();
+            }
+        }
+
+    });
+    </script>
+</dom-module>
